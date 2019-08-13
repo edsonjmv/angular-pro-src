@@ -36,4 +36,21 @@ describe('CreditCardDirective', () => {
     el = fixture.debugElement;
   });
 
+  it('should format the string with spaces', () => {
+    const directive = el.query(By.directive(CreditCardDirective)).nativeElement;
+    directive.value = '475123';
+    directive.dispatchEvent(new Event('input'));
+    expect(directive.value).toBe('4751 23');
+    directive.value = '4751239812019201';
+    directive.dispatchEvent(new Event('input'));
+    expect(directive.value).toBe('4751 2398 1201 9201');
+  })
+
+  it('should have a max-length of 16 characters', () => {
+    const directive = el.query(By.directive(CreditCardDirective)).nativeElement;
+    directive.value = '475123981201920123123123123112';
+    directive.dispatchEvent(new Event('input'));
+    expect(directive.value).toBe('4751 2398 1201 9201');
+  })
+
 });
